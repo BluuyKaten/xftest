@@ -5,6 +5,7 @@ from datetime import datetime
 import os
 from speech_recognition import SpeechRecognition
 from werkzeug.utils import secure_filename
+import subprocess
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your-secret-key-here'
@@ -223,6 +224,28 @@ def recognize_speech():
                 print(f"文件在uploads目录中也不存在")
                 return jsonify({'error': f'音频文件不存在: {audio_file_path}'}), 404
         
+        # 自动转码为16kHz/16bit/单声道wav
+        ext = os.path.splitext(audio_file_path)[1].lower()
+        if ext != '.wav':
+            wav_path = audio_file_path + '.wav'
+            print(f"自动转码: {audio_file_path} -> {wav_path}")
+            try:
+                convert_to_wav(audio_file_path, wav_path)
+                audio_file_path = wav_path
+            except Exception as e:
+                print(f"音频转码失败: {str(e)}")
+                return jsonify({'error': f'音频转码失败: {str(e)}'}), 500
+        else:
+            print("音频已为wav格式，无需转码")
+        
+        # 输出音频参数日志
+        try:
+            import wave
+            with wave.open(audio_file_path, 'rb') as wf:
+                print(f"音频参数: nchannels={wf.getnchannels()}, sampwidth={wf.getsampwidth()}, framerate={wf.getframerate()}, nframes={wf.getnframes()}, duration={wf.getnframes()/wf.getframerate():.2f}s")
+        except Exception as e:
+            print(f"无法读取音频参数: {str(e)}")
+        
         print(f"开始语音识别: {audio_file_path}")
         
         # 执行语音识别
@@ -248,10 +271,12 @@ def recognize_speech():
                 'is_realtime': is_realtime
             })
         else:
-            print(f"识别失败: {result['error']}")
+            # 增强错误提示
+            error_msg = result['error'] or '识别结果为空，可能音频内容无效或格式不兼容。请上传16kHz/16bit/单声道wav音频。'
+            print(f"识别失败: {error_msg}")
             return jsonify({
                 'success': False,
-                'error': result['error'],
+                'error': error_msg,
                 'is_realtime': is_realtime
             }), 400
             
@@ -287,6 +312,15 @@ def get_speech_record(record_id):
         'user_id': record.user_id,
         'created_at': record.created_at.isoformat()
     })
+
+def convert_to_wav(input_path, output_path):
+    ffmpeg_path = r'F:\development\ffmpeg-7.0.2-essentials_build\bin\ffmpeg.exe'
+    cmd = [
+        ffmpeg_path, '-y', '-i', input_path,
+        '-ar', '16000', '-ac', '1', '-sample_fmt', 's16',
+        output_path
+    ]
+    subprocess.run(cmd, check=True)
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000) 
