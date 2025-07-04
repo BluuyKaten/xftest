@@ -1,0 +1,1292 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智能招聘平台 | 发现你的理想工作</title>
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3f37c9;
+            --dark-color: #0f0f1b;
+            --light-color: #f8f9fa;
+            --accent-color: #4cc9f0;
+            --success-color: #38b000;
+            --danger-color: #ef233c;
+            --card-bg: rgba(255, 255, 255, 0.05);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            background-color: var(--dark-color);
+            color: var(--light-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+            perspective: 1000px;
+        }
+        
+        .gradient-bg {
+            background: radial-gradient(circle at 10% 20%, #1a1a2e 0%, #0f0f1b 90%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            padding: 20px 0;
+            position: relative;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            background: rgba(15, 15, 27, 0.7);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(to right, var(--accent-color), var(--primary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+            font-size: 32px;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 25px;
+        }
+        
+        nav ul li a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        nav ul li a:hover {
+            color: var(--accent-color);
+        }
+        
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-color);
+            transition: width 0.3s;
+        }
+        
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+        
+        .user-actions {
+            display: flex;
+            align-items: center;
+        }
+        
+        .user-actions .btn {
+            margin-left: 15px;
+        }
+        
+        .btn {
+            padding: 10px 25px;
+            border-radius: 30px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .btn i {
+            margin-right: 8px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(67, 97, 238, 0.4);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            color: var(--accent-color);
+            border: 1px solid var(--accent-color);
+        }
+        
+        .btn-outline:hover {
+            background: rgba(76, 201, 240, 0.1);
+        }
+        
+        .hero {
+            padding: 100px 0 60px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-content {
+            display: flex;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .hero-text {
+            flex: 1;
+            padding-right: 50px;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            line-height: 1.2;
+            background: linear-gradient(to right, var(--light-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 30px;
+            max-width: 600px;
+        }
+        
+        .search-box {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            margin-top: 30px;
+            max-width: 800px;
+        }
+        
+        .search-form {
+            display: flex;
+        }
+        
+        .search-form input {
+            flex: 1;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 8px 0 0 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 16px;
+            outline: none;
+        }
+        
+        .search-form button {
+            padding: 0 30px;
+            border-radius: 0 8px 8px 0;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .search-form button:hover {
+            opacity: 0.9;
+        }
+        
+        .hero-visual {
+            flex: 1;
+            position: relative;
+            height: 500px;
+        }
+        
+        .floating-cube {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: rgba(76, 201, 240, 0.1);
+            border: 1px solid rgba(76, 201, 240, 0.3);
+            border-radius: 20px;
+            transform-style: preserve-3d;
+            animation: float 8s ease-in-out infinite;
+            backdrop-filter: blur(5px);
+        }
+        
+        .cube-1 {
+            top: 50px;
+            right: 50px;
+            animation-delay: 0s;
+            transform: rotateX(20deg) rotateY(30deg);
+        }
+        
+        .cube-2 {
+            top: 200px;
+            right: 200px;
+            width: 200px;
+            height: 200px;
+            animation-delay: 1s;
+            transform: rotateX(40deg) rotateY(60deg);
+        }
+        
+        .cube-3 {
+            top: 100px;
+            right: 300px;
+            width: 150px;
+            height: 150px;
+            animation-delay: 2s;
+            transform: rotateX(60deg) rotateY(20deg);
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotateX(20deg) rotateY(30deg); }
+            50% { transform: translateY(-20px) rotateX(25deg) rotateY(35deg); }
+        }
+        
+        .job-categories {
+            padding: 80px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .section-title h2 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            background: linear-gradient(to right, var(--light-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .section-title p {
+            color: rgba(255, 255, 255, 0.7);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+        }
+        
+        .category-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transform-style: preserve-3d;
+            transform: perspective(1000px) rotateY(0deg);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .category-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(76, 201, 240, 0.1) 0%, transparent 70%);
+            transform: rotate(45deg);
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+        
+        .category-card:hover {
+            transform: perspective(1000px) rotateY(5deg) translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            border-color: rgba(76, 201, 240, 0.3);
+        }
+        
+        .category-card:hover::before {
+            opacity: 1;
+        }
+        
+        .category-icon {
+            width: 80px;
+            height: 80px;
+            background: rgba(76, 201, 240, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 30px;
+            color: var(--accent-color);
+            transition: all 0.3s;
+        }
+        
+        .category-card:hover .category-icon {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            transform: rotateY(180deg);
+        }
+        
+        .category-card h3 {
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+        
+        .category-card p {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+        }
+        
+        .featured-jobs {
+            padding: 80px 0;
+            position: relative;
+        }
+        
+        .jobs-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        
+        .job-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 30px;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transform-style: preserve-3d;
+            transform: perspective(1000px) rotateX(0deg);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .job-card:hover {
+            transform: perspective(1000px) rotateX(5deg) translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            border-color: rgba(76, 201, 240, 0.3);
+        }
+        
+        .job-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(to right, var(--primary-color), var(--accent-color));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .job-card:hover::before {
+            opacity: 1;
+        }
+        
+        .job-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .company-logo {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+            font-size: 24px;
+            color: var(--accent-color);
+        }
+        
+        .job-info h3 {
+            font-size: 1.3rem;
+            margin-bottom: 5px;
+        }
+        
+        .job-info .company {
+            color: var(--accent-color);
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+        
+        .job-info .location {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .job-info .location i {
+            margin-right: 5px;
+            font-size: 0.8rem;
+        }
+        
+        .job-description {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 25px;
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+        
+        .job-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 20px;
+        }
+        
+        .job-type {
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .full-time {
+            background: rgba(56, 176, 0, 0.1);
+            color: var(--success-color);
+        }
+        
+        .part-time {
+            background: rgba(67, 97, 238, 0.1);
+            color: var(--primary-color);
+        }
+        
+        .remote {
+            background: rgba(76, 201, 240, 0.1);
+            color: var(--accent-color);
+        }
+        
+        .job-salary {
+            font-weight: 600;
+            color: var(--accent-color);
+        }
+        
+        .ai-recommendation {
+            padding: 80px 0;
+            background: radial-gradient(circle at center, rgba(67, 97, 238, 0.1) 0%, transparent 50%);
+            position: relative;
+        }
+        
+        .ai-container {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+        
+        .ai-visual {
+            flex: 1;
+            position: relative;
+            height: 400px;
+        }
+        
+        .ai-robot {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: rgba(76, 201, 240, 0.1);
+            border-radius: 50%;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(76, 201, 240, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 100px;
+            color: var(--accent-color);
+            animation: pulse 3s infinite;
+            transform-style: preserve-3d;
+            transform: perspective(1000px) rotateY(20deg);
+        }
+        
+        .ai-robot::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            box-shadow: 0 0 50px rgba(76, 201, 240, 0.3);
+            animation: pulse 3s infinite 0.5s;
+        }
+        
+        .ai-robot::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            box-shadow: 0 0 50px rgba(76, 201, 240, 0.3);
+            animation: pulse 3s infinite 1s;
+        }
+        
+        @keyframes pulse {
+            0% { transform: perspective(1000px) rotateY(20deg) scale(1); opacity: 1; }
+            50% { transform: perspective(1000px) rotateY(20deg) scale(1.05); opacity: 0.7; }
+            100% { transform: perspective(1000px) rotateY(20deg) scale(1); opacity: 1; }
+        }
+        
+        .ai-content {
+            flex: 1;
+        }
+        
+        .ai-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, var(--light-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .ai-content p {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+        
+        .ai-features {
+            margin-top: 30px;
+        }
+        
+        .ai-feature {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+        
+        .ai-feature i {
+            font-size: 20px;
+            color: var(--accent-color);
+            margin-right: 15px;
+            margin-top: 3px;
+        }
+        
+        .ai-feature h4 {
+            margin-bottom: 5px;
+            font-size: 1.1rem;
+        }
+        
+        .ai-feature p {
+            margin-bottom: 0;
+            font-size: 0.95rem;
+        }
+        
+        .consultation {
+            padding: 80px 0;
+            position: relative;
+        }
+        
+        .consultation-container {
+            display: flex;
+            gap: 50px;
+            align-items: center;
+        }
+        
+        .consultation-form {
+            flex: 1;
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 40px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transform-style: preserve-3d;
+            transform: perspective(1000px) rotateY(-5deg);
+            transition: all 0.3s;
+        }
+        
+        .consultation-form:hover {
+            transform: perspective(1000px) rotateY(0deg);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .form-title {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, var(--light-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 16px;
+            outline: none;
+            transition: all 0.3s;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 10px rgba(76, 201, 240, 0.3);
+        }
+        
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .consultation-visual {
+            flex: 1;
+            position: relative;
+            height: 500px;
+        }
+        
+        .floating-dots {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .dot {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: var(--accent-color);
+            border-radius: 50%;
+            opacity: 0.5;
+            animation: float-dot 10s infinite linear;
+        }
+        
+        @keyframes float-dot {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(50px, -30px) rotate(90deg); }
+            50% { transform: translate(0, -60px) rotate(180deg); }
+            75% { transform: translate(-50px, -30px) rotate(270deg); }
+            100% { transform: translate(0, 0) rotate(360deg); }
+        }
+        
+        footer {
+            background: rgba(15, 15, 27, 0.8);
+            padding: 60px 0 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-column h3 {
+            color: var(--accent-color);
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-column ul li a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .footer-column ul li a:hover {
+            color: var(--accent-color);
+            padding-left: 5px;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            transition: all 0.3s;
+        }
+        
+        .social-links a:hover {
+            background: var(--accent-color);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 1200px) {
+            .hero h1 {
+                font-size: 3rem;
+            }
+            
+            .ai-container, .consultation-container {
+                flex-direction: column;
+            }
+            
+            .ai-visual, .consultation-visual {
+                margin-bottom: 50px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+            }
+            
+            nav {
+                margin: 20px 0;
+            }
+            
+            nav ul li {
+                margin-left: 15px;
+                margin-right: 15px;
+            }
+            
+            .user-actions {
+                margin-top: 20px;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero-content {
+                flex-direction: column;
+            }
+            
+            .hero-text {
+                padding-right: 0;
+                margin-bottom: 50px;
+            }
+            
+            .hero-visual {
+                height: 300px;
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .search-form {
+                flex-direction: column;
+            }
+            
+            .search-form input {
+                border-radius: 8px;
+                margin-bottom: 10px;
+            }
+            
+            .search-form button {
+                border-radius: 8px;
+                padding: 15px;
+            }
+            
+            .jobs-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body class="gradient-bg">
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <i class="fas fa-robot"></i>
+                <span>智能招聘</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#home">首页</a></li>
+                    <li><a href="#jobs">热门职位</a></li>
+                    <li><a href="#ai">AI推荐</a></li>
+                    <li><a href="#consult">职位咨询</a></li>
+                </ul>
+            </nav>
+            <div class="user-actions">
+                <button class="btn btn-outline"><i class="fas fa-sign-in-alt"></i> 登录</button>
+                <button class="btn btn-primary"><i class="fas fa-user-plus"></i> 注册</button>
+            </div>
+        </div>
+    </header>
+    
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>发现你的理想工作</h1>
+                    <p>通过我们先进的AI技术，匹配最适合你的职位，开启职业生涯新篇章。</p>
+                    <div class="search-box">
+                        <div class="search-form">
+                            <input type="text" placeholder="输入职位关键词，如'前端开发'、'市场营销'...">
+                            <button><i class="fas fa-search"></i> 搜索</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="floating-cube cube-1"></div>
+                    <div class="floating-cube cube-2"></div>
+                    <div class="floating-cube cube-3"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="job-categories">
+        <div class="container">
+            <div class="section-title">
+                <h2>热门职位类别</h2>
+                <p>探索我们平台上的各类热门职位，找到最适合你的职业方向</p>
+            </div>
+            <div class="categories-grid">
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3>技术开发</h3>
+                    <p>前端、后端、全栈、移动开发等各类技术岗位</p>
+                    <button class="btn btn-outline">查看职位</button>
+                </div>
+                
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>产品与设计</h3>
+                    <p>产品经理、UI/UX设计师、交互设计师等职位</p>
+                    <button class="btn btn-outline">查看职位</button>
+                </div>
+                
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-bullhorn"></i>
+                    </div>
+                    <h3>市场营销</h3>
+                    <p>数字营销、品牌推广、市场策划等各类营销职位</p>
+                    <button class="btn btn-outline">查看职位</button>
+                </div>
+                
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <h3>数据科学</h3>
+                    <p>数据分析师、数据工程师、AI工程师等职位</p>
+                    <button class="btn btn-outline">查看职位</button>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="featured-jobs" id="jobs">
+        <div class="container">
+            <div class="section-title">
+                <h2>精选热门职位</h2>
+                <p>根据你的个人资料和偏好，为你推荐以下优质职位</p>
+            </div>
+            <div class="jobs-container">
+                <div class="job-card">
+                    <div class="job-header">
+                        <div class="company-logo">
+                            <i class="fab fa-google"></i>
+                        </div>
+                        <div class="job-info">
+                            <h3>高级前端开发工程师</h3>
+                            <div class="company">Google China</div>
+                            <div class="location"><i class="fas fa-map-marker-alt"></i> 北京 / 远程</div>
+                        </div>
+                    </div>
+                    <div class="job-description">
+                        我们正在寻找一位经验丰富的前端开发工程师，负责构建和维护我们的核心产品界面。要求精通React、TypeScript和现代前端开发流程。
+                    </div>
+                    <div class="job-footer">
+                        <span class="job-type remote">远程</span>
+                        <span class="job-salary">¥40k-70k/月</span>
+                    </div>
+                </div>
+                
+                <div class="job-card">
+                    <div class="job-header">
+                        <div class="company-logo">
+                            <i class="fab fa-apple"></i>
+                        </div>
+                        <div class="job-info">
+                            <h3>iOS开发工程师</h3>
+                            <div class="company">Apple Inc.</div>
+                            <div class="location"><i class="fas fa-map-marker-alt"></i> 上海</div>
+                        </div>
+                    </div>
+                    <div class="job-description">
+                        加入Apple中国团队，参与开发下一代iOS应用程序。要求精通Swift、Objective-C，有丰富的iOS开发经验，对用户体验有深刻理解。
+                    </div>
+                    <div class="job-footer">
+                        <span class="job-type full-time">全职</span>
+                        <span class="job-salary">¥35k-60k/月</span>
+                    </div>
+                </div>
+                
+                <div class="job-card">
+                    <div class="job-header">
+                        <div class="company-logo">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <div class="job-info">
+                            <h3>AI算法工程师</h3>
+                            <div class="company">深度求索</div>
+                            <div class="location"><i class="fas fa-map-marker-alt"></i> 深圳</div>
+                        </div>
+                    </div>
+                    <div class="job-description">
+                        负责大规模语言模型的研发和优化，要求精通Python、PyTorch，有NLP相关研究经验，发表过顶会论文者优先。
+                    </div>
+                    <div class="job-footer">
+                        <span class="job-type full-time">全职</span>
+                        <span class="job-salary">¥50k-90k/月</span>
+                    </div>
+                </div>
+                
+                <div class="job-card">
+                    <div class="job-header">
+                        <div class="company-logo">
+                            <i class="fas fa-shopping-bag"></i>
+                        </div>
+                        <div class="job-info">
+                            <h3>电商产品经理</h3>
+                            <div class="company">阿里巴巴</div>
+                            <div class="location"><i class="fas fa-map-marker-alt"></i> 杭州</div>
+                        </div>
+                    </div>
+                    <div class="job-description">
+                        负责电商平台产品规划与设计，协调技术团队实现产品功能。要求3年以上电商产品经验，出色的数据分析能力和用户洞察力。
+                    </div>
+                    <div class="job-footer">
+                        <span class="job-type full-time">全职</span>
+                        <span class="job-salary">¥30k-50k/月</span>
+                    </div>
+                </div>
+                
+                <div class="job-card">
+                    <div class="job-header">
+                        <div class="company-logo">
+                            <i class="fas fa-paint-brush"></i>
+                        </div>
+                        <div class="job-info">
+                            <h3>UI/UX设计师</h3>
+                            <div class="company">腾讯科技</div>
+                            <div class="location"><i class="fas fa-map-marker-alt"></i> 深圳</div>
+                        </div>
+                    </div>
+                    <div class="job-description">
+                        负责公司产品的用户体验设计，包括界面设计、交互设计和用户研究。要求精通Figma、Sketch等设计工具，有完整项目经验。
+                    </div>
+                    <div class="job-footer">
+                        <span class="job-type full-time">全职</span>
+                        <span class="job-salary">¥25k-45k/月</span>
+                    </div>
+                </div>
+                
+                <div class="job-card">
+                    <div class="job-header">
+                        <div class="company-logo">
+                            <i class="fas fa-cloud"></i>
+                        </div>
+                        <div class="job-info">
+                            <h3>云计算架构师</h3>
+                            <div class="company">华为云</div>
+                            <div class="location"><i class="fas fa-map-marker-alt"></i> 深圳 / 远程</div>
+                        </div>
+                    </div>
+                    <div class="job-description">
+                        负责企业级云计算解决方案的设计与实施，要求精通AWS/Azure/阿里云等云平台，有大规模分布式系统设计经验。
+                    </div>
+                    <div class="job-footer">
+                        <span class="job-type remote">远程</span>
+                        <span class="job-salary">¥45k-80k/月</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="ai-recommendation" id="ai">
+        <div class="container">
+            <div class="ai-container">
+                <div class="ai-visual">
+                    <div class="ai-robot">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                </div>
+                <div class="ai-content">
+                    <h2>AI智能职位推荐</h2>
+                    <p>我们的AI算法会分析你的技能、经验和工作偏好，为你精准匹配最适合的职位机会。不再浪费时间浏览不相关的职位，让AI为你找到理想工作。</p>
+                    <button class="btn btn-primary"><i class="fas fa-magic"></i> 体验AI推荐</button>
+                    
+                    <div class="ai-features">
+                        <div class="ai-feature">
+                            <i class="fas fa-user-cog"></i>
+                            <div>
+                                <h4>个性化匹配</h4>
+                                <p>根据你的技能、经验和职业目标，推荐最适合的职位</p>
+                            </div>
+                        </div>
+                        
+                        <div class="ai-feature">
+                            <i class="fas fa-bell"></i>
+                            <div>
+                                <h4>实时提醒</h4>
+                                <p>当有符合你条件的新职位发布时，第一时间通知你</p>
+                            </div>
+                        </div>
+                        
+                        <div class="ai-feature">
+                            <i class="fas fa-chart-pie"></i>
+                            <div>
+                                <h4>职业分析</h4>
+                                <p>提供职业发展建议和技能提升路径</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="consultation" id="consult">
+        <div class="container">
+            <div class="section-title">
+                <h2>职位咨询服务</h2>
+                <p>对我们的职位有疑问？填写表单，我们的职业顾问将尽快与你联系</p>
+            </div>
+            
+            <div class="consultation-container">
+                <div class="consultation-form">
+                    <h3 class="form-title">咨询表单</h3>
+                    <form>
+                        <div class="form-group">
+                            <label for="name">姓名</label>
+                            <input type="text" id="name" placeholder="请输入您的姓名">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">电子邮箱</label>
+                            <input type="email" id="email" placeholder="请输入您的电子邮箱">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="phone">联系电话</label>
+                            <input type="tel" id="phone" placeholder="请输入您的联系电话">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="job">感兴趣的职位</label>
+                            <select id="job">
+                                <option value="">请选择您想咨询的职位</option>
+                                <option value="frontend">高级前端开发工程师</option>
+                                <option value="ios">iOS开发工程师</option>
+                                <option value="ai">AI算法工程师</option>
+                                <option value="pm">电商产品经理</option>
+                                <option value="designer">UI/UX设计师</option>
+                                <option value="cloud">云计算架构师</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="message">咨询内容</label>
+                            <textarea id="message" placeholder="请输入您的具体问题或咨询内容"></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">
+                            <i class="fas fa-paper-plane"></i> 提交咨询
+                        </button>
+                    </form>
+                </div>
+                
+                <div class="consultation-visual">
+                    <div class="floating-dots">
+                        <div class="dot" style="top: 20%; left: 30%; animation-delay: 0s;"></div>
+                        <div class="dot" style="top: 40%; left: 70%; animation-delay: 1s;"></div>
+                        <div class="dot" style="top: 70%; left: 20%; animation-delay: 2s;"></div>
+                        <div class="dot" style="top: 30%; left: 50%; animation-delay: 3s;"></div>
+                        <div class="dot" style="top: 60%; left: 80%; animation-delay: 4s;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>关于我们</h3>
+                    <ul>
+                        <li><a href="#">公司简介</a></li>
+                        <li><a href="#">团队介绍</a></li>
+                        <li><a href="#">合作伙伴</a></li>
+                        <li><a href="#">加入我们</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>求职者</h3>
+                    <ul>
+                        <li><a href="#">浏览职位</a></li>
+                        <li><a href="#">AI职位推荐</a></li>
+                        <li><a href="#">简历制作</a></li>
+                        <li><a href="#">面试技巧</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>企业</h3>
+                    <ul>
+                        <li><a href="#">发布职位</a></li>
+                        <li><a href="#">人才搜索</a></li>
+                        <li><a href="#">招聘解决方案</a></li>
+                        <li><a href="#">企业套餐</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>联系我们</h3>
+                    <ul>
+                        <li><i class="fas fa-envelope"></i> contact@smartrecruit.com</li>
+                        <li><i class="fas fa-phone"></i> 400-888-8888</li>
+                        <li><i class="fas fa-map-marker-alt"></i> 北京市海淀区科技园路88号</li>
+                    </ul>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-weixin"></i></a>
+                        <a href="#"><i class="fab fa-weibo"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                &copy; 2023 智能招聘平台. 保留所有权利.
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // 3D卡片悬停效果增强
+        document.querySelectorAll('.category-card, .job-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                const angleY = (x - centerX) / 20;
+                const angleX = (centerY - y) / 20;
+                
+                card.style.transform = `perspective(1000px) rotateX(${angleX}deg) rotateY(${angleY}deg) translateY(-10px)`;
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0)';
+            });
+        });
+        
+        // 浮动点动画
+        document.querySelectorAll('.dot').forEach((dot, index) => {
+            dot.style.animationDelay = `${index * 0.5}s`;
+        });
+        
+        // AI机器人交互效果
+        const aiRobot = document.querySelector('.ai-robot');
+        aiRobot.addEventListener('mouseenter', () => {
+            aiRobot.style.animation = 'none';
+            aiRobot.style.transform = 'perspective(1000px) rotateY(20deg) scale(1.1)';
+        });
+        
+        aiRobot.addEventListener('mouseleave', () => {
+            aiRobot.style.animation = 'pulse 3s infinite';
+            aiRobot.style.transform = 'perspective(1000px) rotateY(20deg) scale(1)';
+        });
+        
+        // 表单提交
+        const form = document.querySelector('form');
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('感谢您的咨询，我们的职业顾问将尽快与您联系！');
+            form.reset();
+        });
+    </script>
+</body>
+</html>
